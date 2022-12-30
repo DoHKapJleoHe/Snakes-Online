@@ -7,6 +7,7 @@ import utils.Snake;
 
 import javax.swing.*;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 public class GameFrame extends JFrame
 {
@@ -36,9 +37,9 @@ public class GameFrame extends JFrame
         this.add(gamingField);
     }
 
-    public void updateGamingField(GameState state)
+    public void updateGamingField(GameState state, ArrayList<Point> foods)
     {
-        gamingField.updateField(state);
+        gamingField.updateField(state, foods);
     }
 
     public void onArrowPress(KeyListener keyListener)

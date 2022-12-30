@@ -14,6 +14,7 @@ public class GamingField extends JPanel
     private final int height;
     private final int dim = 20;
     private GameState gameState;
+    private ArrayList<Point> food;
 
     public GamingField(int width, int height)
     {
@@ -22,8 +23,6 @@ public class GamingField extends JPanel
         this.setSize(width * dim, height * dim);
         this.setBackground(Color.BLACK);
         this.setVisible(true);
-
-        //this.setFocusable(true);
     }
 
     @Override
@@ -41,11 +40,19 @@ public class GamingField extends JPanel
                 g.fillRect(p.getX()*dim, p.getY()*dim, dim, dim);
             }
         }
+
+        g.setColor(Color.RED);
+
+        for(Point p : food)
+        {
+            g.fillRect(p.getX()*dim, p.getY()*dim, dim, dim);
+        }
     }
 
-    public void updateField(GameState state)
+    public void updateField(GameState state, ArrayList<Point> foods)
     {
         this.gameState = state;
+        this.food = foods;
         repaint();
     }
 }
