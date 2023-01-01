@@ -5,6 +5,7 @@ import utils.Snake;
 import view.GameFrame;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class GameState
@@ -13,7 +14,7 @@ public class GameState
     private GameFrame gameFrame;
 
     private int state_order;
-    private ArrayList<Snake> snakes = new ArrayList<>();
+    private HashMap<Integer ,Snake> snakes = new HashMap<>();
     private ArrayList<Point> foods = new ArrayList<>();
     private int player_num;
 
@@ -26,19 +27,19 @@ public class GameState
         spawnFood();
     }
 
-    public ArrayList<Snake> getSnakes() {
+    public HashMap<Integer, Snake> getSnakes() {
         return snakes;
     }
 
     public void addSnake(Snake newSnake)
     {
-        this.snakes.add(newSnake);
+        this.snakes.put(newSnake.getPlayer_id(), newSnake);
         this.player_num++;
     }
 
     public void moveSnakes()
     {
-        for(Snake s : snakes)
+        for(Snake s : snakes.values())
         {
             Point head = s.getBody().get(0);
             int x = head.getX();
@@ -127,29 +128,14 @@ public class GameState
         int x = (temp.getX() < 0) ? (width - 1) : (temp.getX() % width);
         int y = (temp.getY() < 0) ? (height - 1) : (temp.getY() % height);
 
-        /*if(temp.getX() > width)
-        {
-            return new Point(0, temp.getY());
-        }
-        else if(temp.getX() < 0)
-        {
-            return new Point(width, temp.getY());
-        }
-        else if(temp.getY() > height)
-        {
-            return new Point(temp.getX(), 0);
-        }
-        else
-        {
-
-        }*/
         return new Point(x, y);
     }
 
     public void updateState()
     {
-        moveSnakes();
         state_order++;
+        checkDeath();
+        moveSnakes();
         gameFrame.updateGamingField(this, foods);
     }
 
@@ -193,6 +179,57 @@ public class GameState
         Point food = new Point(x, y);
 
         foods.add(food);
+    }
+
+    private void checkDeath()
+    {
+        for(Snake snake1 : snakes.values())
+        {
+            Point s1_head = snake1.getBody().get(0);
+            for(Snake snake2 : snakes.values())
+            {
+                ArrayList<Point> s2_body = snake2.getBody();
+                Point s2_head = snake2.getBody().get(0);
+
+                for(Point s2_body_segment : s2_body)
+                {
+                    if(snake1.getPlayer_id() == snake2.getPlayer_id())
+                    {
+                        if(s2_body_segment == s2_head)
+                        {
+                            continue;
+                        }
+
+                        if(s1_head.equals(s2_body_segment))
+                        {
+                            killSnake(snake1.getPlayer_id());
+                        }
+                    }
+                    else
+                    {
+                        if(s1_head.equals(s2_body_segment))
+                        {
+                            killSnake(snake1.getPlayer_id());
+                            //addScore(snake2);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void killSnake(int snakeID)
+    {
+        Snake snake = snakes.remove(snakeID);
+
+        // spawn food with 50% chance
+        for(Point p : snake.getBody())
+        {
+            if(1 == new Random().nextInt(2))
+            {
+                foods.add(p);
+            }
+        }
     }
 }
 

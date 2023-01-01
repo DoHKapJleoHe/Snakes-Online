@@ -53,6 +53,10 @@ public class Snake
         this.player_id = player_id;
     }
 
+    public int getPlayer_id() {
+        return player_id;
+    }
+
     public int getSnakeLength() {
         return body.size();
     }

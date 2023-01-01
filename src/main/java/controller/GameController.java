@@ -22,7 +22,7 @@ public class GameController {
         gameFrame = new GameFrame(width, height);
         gameState = new GameState(config, gameFrame);
 
-        Snake snake = new Snake(1, new Point(5, 5));
+        Snake snake = new Snake(0, new Point(5, 5));
         gameState.addSnake(snake);
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -30,7 +30,7 @@ public class GameController {
             public void run() {
                 updateGameState();
             }
-        }, 0, 500);
+        }, 0, 300);
 
         gameFrame.onArrowPress(new KeyListener() {
             @Override

@@ -7,6 +7,7 @@ import utils.Snake;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GamingField extends JPanel
 {
@@ -30,10 +31,10 @@ public class GamingField extends JPanel
     {
         super.paint(g);
 
-        ArrayList<Snake> snakes = gameState.getSnakes();
+        HashMap<Integer, Snake> snakes = gameState.getSnakes();
         g.setColor(Color.BLUE);
 
-        for(Snake s : snakes)
+        for(Snake s : snakes.values())
         {
             for(Point p : s.getBody())
             {
