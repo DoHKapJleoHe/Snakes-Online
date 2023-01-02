@@ -4,6 +4,7 @@ import model.GameConfiguration;
 import model.GameState;
 import netUtils.SnakeGameAnnouncement;
 import netUtils.SnakePlayer;
+import netUtils.SnakeRole;
 import netUtils.SnakeSteer;
 import utils.Point;
 import utils.Snake;
@@ -24,31 +25,25 @@ public class GameController
     private Timer timerForUpdate;
     private Timer timerForAnnounce;
 
+    public SnakeRole role;
+
     private HashMap<Integer, SnakePlayer> peers;
 
-    public GameController(int width, int height) {
+    public GameController(int width, int height)
+    {
         config = new GameConfiguration(width, height, 1, "DemoGame");
         gameFrame = new GameFrame(width, height);
         gameState = new GameState(config, gameFrame);
 
         Snake snake = new Snake(0, new Point(5, 5));
         gameState.addSnake(snake);
+
         timerForUpdate = new Timer();
-        int updTime = config.getTimeBetweenIterations();
         timerForUpdate.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 updateGameState();
-            }
-        }, updTime, updTime);
-
-        timerForAnnounce = new Timer();
-        timerForAnnounce.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                    announce();
-            }
-        }, 0, 1000);
+            }}, 0, 500);
 
         gameFrame.onArrowPress(new KeyListener() {
             @Override
@@ -82,7 +77,7 @@ public class GameController
         });
     }
 
-    private void announce()
+    /*private void announce()
     {
         SnakeGameAnnouncement gameAnnouncement = new SnakeGameAnnouncement();
         gameAnnouncement.gameName = config.getGameName();
@@ -90,7 +85,7 @@ public class GameController
         gameAnnouncement.players = new HashMap<>(peers);
 
         netController.sendAnnouncementMsg(gameAnnouncement);
-    }
+    }*/
 
     private void updateGameState() {
         gameState.updateState();
@@ -98,7 +93,8 @@ public class GameController
 
     /*private SnakeSteer SteerSnake(SnakeSteer steer)
     {
+        gameState.updateSnakeDirection(steer.id, steer.snakeDir.toString());
 
-
+        return steer;
     }*/
 }

@@ -163,13 +163,7 @@ public class GameState
 
     private void locatePlace()
     {
-        /*for(int i = 0; i < config.getFieldHeight(); i++)
-        {
-            for(int j = 0; j < config.getFieldWidth(); j++)
-            {
-                Point freePlace = new Point(i, j);
-            }
-        }*/
+
     }
 
     private void spawnFood()

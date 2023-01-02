@@ -3,6 +3,7 @@ package view;
 import controller.GameController;
 import controller.NetController;
 import netUtils.SnakeGameAnnouncement;
+import netUtils.SnakeRole;
 
 import javax.swing.*;
 import java.io.FileInputStream;
@@ -15,7 +16,6 @@ import java.util.logging.Logger;
 
 public class Menus
 {
-    static Logger LOGGER;
     private GameController gameController;
     private NetController netController;
     private DefaultListModel<String> gamesModel = new DefaultListModel<>();
@@ -23,12 +23,11 @@ public class Menus
 
     HashMap<String, SnakeGameAnnouncement> games = new HashMap<>();
 
+    private CreateGameFrame createGameFrame;
+    private ConnectToGameFrame connectToGameFrame;
 
     public void show() throws IOException
     {
-        FileInputStream fis = new FileInputStream("C:\\Users\\eduar\\Desktop\\Проекты\\Snake-Online\\src\\main\\java\\log.config");
-        LogManager.getLogManager().readConfiguration(fis);
-
         netController = new NetController("239.192.0.4", 9192);
         netController.onReceiveAnnouncement(this::addGameToList);
 
@@ -125,7 +124,6 @@ public class Menus
         createButton.addActionListener(e -> {
             host_a_gameFrame.setVisible(false);
             gameController = new GameController(Integer.parseInt(boardWidth.getText()), Integer.parseInt(boardHeight.getText()));
-
         });
 
         goBack2.addActionListener(e -> {
@@ -137,7 +135,6 @@ public class Menus
             if(e.getValueIsAdjusting())
             {
                 int index = games.getSelectedIndex();
-
             }
         });
     }
