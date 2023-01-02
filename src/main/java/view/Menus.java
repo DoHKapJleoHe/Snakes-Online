@@ -2,11 +2,14 @@ package view;
 
 import controller.GameController;
 import controller.NetController;
+import netUtils.SnakeGameAnnouncement;
 
 import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -15,13 +18,19 @@ public class Menus
     static Logger LOGGER;
     private GameController gameController;
     private NetController netController;
+    private DefaultListModel<String> gamesModel = new DefaultListModel<>();
     private Timer timer;
+
+    HashMap<String, SnakeGameAnnouncement> games = new HashMap<>();
 
 
     public void show() throws IOException
     {
         FileInputStream fis = new FileInputStream("C:\\Users\\eduar\\Desktop\\Проекты\\Snake-Online\\src\\main\\java\\log.config");
         LogManager.getLogManager().readConfiguration(fis);
+
+        netController = new NetController("239.192.0.4", 9192);
+        netController.onReceiveAnnouncement(this::addGameToList);
 
         // MAIN MENU FRAME
         JFrame mainMenu = new JFrame("Snake");
@@ -86,7 +95,6 @@ public class Menus
         connect_to_a_gameFrame.getContentPane().setLayout(null);
         connect_to_a_gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        DefaultListModel<String> gamesModel = new DefaultListModel<>();
         JList games = new JList(gamesModel); // here will be shown started games to connect to them
         games.setVisible(true);
         games.setBounds(10, 10, 200, 300);
@@ -124,5 +132,23 @@ public class Menus
             connect_to_a_gameFrame.setVisible(false);
             mainMenu.setVisible(true);
         });
+
+        games.addListSelectionListener(e -> {
+            if(e.getValueIsAdjusting())
+            {
+                int index = games.getSelectedIndex();
+
+            }
+        });
     }
+
+    private SnakeGameAnnouncement addGameToList(SnakeGameAnnouncement snakeGameAnnouncement)
+    {
+        games.put(snakeGameAnnouncement.gameName, snakeGameAnnouncement);
+
+        gamesModel.add(0, snakeGameAnnouncement.gameName);
+
+        return snakeGameAnnouncement;
+    }
+
 }

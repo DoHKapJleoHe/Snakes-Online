@@ -27,7 +27,7 @@ public class GameController
     private HashMap<Integer, SnakePlayer> peers;
 
     public GameController(int width, int height) {
-        config = new GameConfiguration(width, height, config.getTimeBetweenIterations(), "DemoGame");
+        config = new GameConfiguration(width, height, 1, "DemoGame");
         gameFrame = new GameFrame(width, height);
         gameState = new GameState(config, gameFrame);
 
@@ -48,7 +48,7 @@ public class GameController
             public void run() {
                     announce();
             }
-        }, 0, 100);
+        }, 0, 1000);
 
         gameFrame.onArrowPress(new KeyListener() {
             @Override
@@ -96,19 +96,9 @@ public class GameController
         gameState.updateState();
     }
 
-    private SnakeSteer SteerSnake(SnakeSteer steer)
+    /*private SnakeSteer SteerSnake(SnakeSteer steer)
     {
-        int id = -1;
 
-        for(var peer : peers.entrySet())
-        {
-            if(peer.getValue().address.equals(steer.address) && peer.getValue().port == steer.port)
-            {
-                id = peer.getKey();
-            }
-        }
 
-        if(id != -1)
-            
-    }
+    }*/
 }
