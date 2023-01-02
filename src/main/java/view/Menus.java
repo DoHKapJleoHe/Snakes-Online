@@ -123,7 +123,7 @@ public class Menus
 
         createButton.addActionListener(e -> {
             host_a_gameFrame.setVisible(false);
-            gameController = new GameController(Integer.parseInt(boardWidth.getText()), Integer.parseInt(boardHeight.getText()));
+            gameController = new GameController(Integer.parseInt(boardWidth.getText()), Integer.parseInt(boardHeight.getText()), netController);
         });
 
         goBack2.addActionListener(e -> {

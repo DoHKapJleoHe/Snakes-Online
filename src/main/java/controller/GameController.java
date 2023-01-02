@@ -29,14 +29,22 @@ public class GameController
 
     private HashMap<Integer, SnakePlayer> peers;
 
-    public GameController(int width, int height)
+    public GameController(int width, int height, NetController netController)
     {
+        this.netController = netController;
         config = new GameConfiguration(width, height, 1, "DemoGame");
         gameFrame = new GameFrame(width, height);
         gameState = new GameState(config, gameFrame);
+        peers = new HashMap<>();
 
         Snake snake = new Snake(0, new Point(5, 5));
         gameState.addSnake(snake);
+        SnakePlayer master = new SnakePlayer();
+        master.id = 0;
+        master.name = "master";
+        master.playerRole = SnakeRole.MASTER;
+        master.score = 0;
+        peers.put(0, master);
 
         timerForUpdate = new Timer();
         timerForUpdate.scheduleAtFixedRate(new TimerTask() {
@@ -44,6 +52,14 @@ public class GameController
             public void run() {
                 updateGameState();
             }}, 0, 500);
+
+        timerForAnnounce = new Timer();
+        timerForAnnounce.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                announce();
+            }
+        }, 0, 1000);
 
         gameFrame.onArrowPress(new KeyListener() {
             @Override
@@ -77,7 +93,7 @@ public class GameController
         });
     }
 
-    /*private void announce()
+    private void announce()
     {
         SnakeGameAnnouncement gameAnnouncement = new SnakeGameAnnouncement();
         gameAnnouncement.gameName = config.getGameName();
@@ -85,7 +101,7 @@ public class GameController
         gameAnnouncement.players = new HashMap<>(peers);
 
         netController.sendAnnouncementMsg(gameAnnouncement);
-    }*/
+    }
 
     private void updateGameState() {
         gameState.updateState();
