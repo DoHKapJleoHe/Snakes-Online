@@ -1,14 +1,13 @@
 package netUtils;
 
-import utils.Direction;
-import utils.Snake;
-
 import java.net.InetAddress;
 
-public class SnakeSteer
+public class SnakePlayer
 {
-    public Direction snakeDir;
     public int id;
+    public String name;
+    public SnakeRole playerRole;
     public InetAddress address;
     public int port;
+    public int score;
 }

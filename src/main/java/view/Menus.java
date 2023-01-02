@@ -1,10 +1,12 @@
 package view;
 
 import controller.GameController;
+import controller.NetController;
 
 import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Timer;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -12,6 +14,9 @@ public class Menus
 {
     static Logger LOGGER;
     private GameController gameController;
+    private NetController netController;
+    private Timer timer;
+
 
     public void show() throws IOException
     {
@@ -44,10 +49,10 @@ public class Menus
         host_a_gameFrame.getContentPane().setLayout(null);
         host_a_gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JButton goBack = new JButton("Go Back");
-        goBack.setBounds(20, 30, 100, 30);
-        goBack.setVisible(true);
-        host_a_gameFrame.add(goBack);
+        JButton goBack1 = new JButton("Go Back");
+        goBack1.setBounds(20, 30, 100, 30);
+        goBack1.setVisible(true);
+        host_a_gameFrame.add(goBack1);
 
         JButton createButton = new JButton("Create");
         createButton.setBounds(20, 70, 100, 30);
@@ -81,7 +86,16 @@ public class Menus
         connect_to_a_gameFrame.getContentPane().setLayout(null);
         connect_to_a_gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JList games = new JList(); // here will be shown started games to connect to them
+        DefaultListModel<String> gamesModel = new DefaultListModel<>();
+        JList games = new JList(gamesModel); // here will be shown started games to connect to them
+        games.setVisible(true);
+        games.setBounds(10, 10, 200, 300);
+        connect_to_a_gameFrame.add(games);
+
+        JButton goBack2 = new JButton("Go Back");
+        goBack2.setBounds(250, 150, 100, 30);
+        goBack2.setVisible(true);
+        connect_to_a_gameFrame.add(goBack2);
         //////////////////////////////////////////////////////////////////////
 
         // ACTION LISTENERS
@@ -95,14 +109,20 @@ public class Menus
             connect_to_a_gameFrame.setVisible(true);
         });
 
-        goBack.addActionListener(e -> {
+        goBack1.addActionListener(e -> {
             host_a_gameFrame.setVisible(false);
             mainMenu.setVisible(true);
         });
+
         createButton.addActionListener(e -> {
             host_a_gameFrame.setVisible(false);
             gameController = new GameController(Integer.parseInt(boardWidth.getText()), Integer.parseInt(boardHeight.getText()));
 
+        });
+
+        goBack2.addActionListener(e -> {
+            connect_to_a_gameFrame.setVisible(false);
+            mainMenu.setVisible(true);
         });
     }
 }

@@ -1,4 +1,12 @@
 package netUtils;
 
-public class SnakeJoinRequest {
+import java.net.InetAddress;
+
+public class SnakeJoinRequest
+{
+    public String playerName;
+    public String gameName;
+    public SnakeRole role;
+    public InetAddress senderAdr;
+    public int senderPort;
 }

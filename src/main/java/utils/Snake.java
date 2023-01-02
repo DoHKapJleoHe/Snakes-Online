@@ -1,24 +1,10 @@
 package utils;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Snake
 {
-    public enum Direction{
-        LEFT,
-        RIGHT,
-        UP,
-        DOWN;
-
-        public static Direction setRandomDirection()
-        {
-            Direction[] directions = values();
-            return directions[new Random().nextInt(directions.length)];
-        }
-    }
-
-    private enum snakeState
+    public enum snakeState
     {
         ALIVE,
         ZOMBIE;
@@ -28,6 +14,7 @@ public class Snake
     private ArrayList<Point> body;
     private snakeState state = snakeState.ALIVE;
     private Direction direction;
+    private int score;
 
     public Snake(int id, Point head_pos) {
         body = new ArrayList<>();
@@ -37,8 +24,14 @@ public class Snake
         player_id = id;
     }
 
+    public Snake(){}
+
     public ArrayList<Point> getBody() {
         return this.body;
+    }
+
+    public void setBody(ArrayList<Point> body) {
+        this.body = body;
     }
 
     public void setDirection(Direction direction) {
@@ -59,6 +52,23 @@ public class Snake
 
     public int getSnakeLength() {
         return body.size();
+    }
+
+    public void setState(snakeState state) {
+        this.state = state;
+    }
+
+    public snakeState getState() {
+        return state;
+    }
+
+    public void addScore()
+    {
+        this.score++;
+    }
+
+    public int getScore() {
+        return score;
     }
 }
 

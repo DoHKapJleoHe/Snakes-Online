@@ -2,14 +2,17 @@ package model;
 
 public class GameConfiguration
 {
-    private final int fieldHeight;
-    private final int fieldWidth;
-    //private int timeBetweenIterations;
+    private int fieldHeight;
+    private int fieldWidth;
+    private int timeBetweenIterations;
+    private String gameName;
 
-    public GameConfiguration(int fieldWidth, int fieldHeight)
+    public GameConfiguration(int fieldWidth, int fieldHeight, int timeBetweenIterations, String gameName)
     {
         this.fieldHeight = fieldHeight;
         this.fieldWidth = fieldWidth;
+        this.timeBetweenIterations = timeBetweenIterations;
+        this.gameName = gameName;
     }
 
     public int getFieldHeight() {
@@ -20,5 +23,16 @@ public class GameConfiguration
         return fieldWidth;
     }
 
+    public String getGameName()
+    {
+        return gameName;
+    }
 
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
+    }
+
+    public int getTimeBetweenIterations() {
+        return timeBetweenIterations;
+    }
 }

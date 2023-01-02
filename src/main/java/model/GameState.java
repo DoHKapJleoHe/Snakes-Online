@@ -1,5 +1,6 @@
 package model;
 
+import utils.Direction;
 import utils.Point;
 import utils.Snake;
 import view.GameFrame;
@@ -45,7 +46,7 @@ public class GameState
             int x = head.getX();
             int y = head.getY();
 
-            if(s.getDirection().equals(Snake.Direction.RIGHT))
+            if(s.getDirection().equals(Direction.RIGHT))
             {
                 Point temp = checkPoint(new Point(x + 1, y));
                 s.getBody().add(0, temp);
@@ -58,9 +59,10 @@ public class GameState
                 {
                     foods.remove(0);
                     spawnFood();
+                    s.addScore();
                 }
             }
-            else if(s.getDirection().equals(Snake.Direction.LEFT))
+            else if(s.getDirection().equals(Direction.LEFT))
             {
                 Point temp = checkPoint(new Point(x - 1, y));
                 s.getBody().add(0, temp);
@@ -75,7 +77,7 @@ public class GameState
                     spawnFood();
                 }
             }
-            else if(s.getDirection().equals(Snake.Direction.UP))
+            else if(s.getDirection().equals(Direction.UP))
             {
                 Point temp = checkPoint(new Point(x, y - 1));
                 s.getBody().add(0, temp);
@@ -143,19 +145,19 @@ public class GameState
     {
         if(newDir.equals("LEFT"))
         {
-            snakes.get(snake_id).setDirection(Snake.Direction.LEFT);
+            snakes.get(snake_id).setDirection(Direction.LEFT);
         }
         else if(newDir.equals("RIGHT"))
         {
-            snakes.get(snake_id).setDirection(Snake.Direction.RIGHT);
+            snakes.get(snake_id).setDirection(Direction.RIGHT);
         }
         else if(newDir.equals("UP"))
         {
-            snakes.get(snake_id).setDirection(Snake.Direction.UP);
+            snakes.get(snake_id).setDirection(Direction.UP);
         }
         else
         {
-            snakes.get(snake_id).setDirection(Snake.Direction.DOWN);
+            snakes.get(snake_id).setDirection(Direction.DOWN);
         }
     }
 
