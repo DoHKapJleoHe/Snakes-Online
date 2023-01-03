@@ -6,13 +6,9 @@ import netUtils.SnakeGameAnnouncement;
 import netUtils.SnakeRole;
 
 import javax.swing.*;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Timer;
-import java.util.TimerTask;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
 public class Menus
 {
@@ -22,9 +18,6 @@ public class Menus
     private Timer timer;
 
     HashMap<String, SnakeGameAnnouncement> games = new HashMap<>();
-
-    private CreateGameFrame createGameFrame;
-    private ConnectToGameFrame connectToGameFrame;
 
     public void show() throws IOException
     {
@@ -94,10 +87,10 @@ public class Menus
         connect_to_a_gameFrame.getContentPane().setLayout(null);
         connect_to_a_gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JList games = new JList(gamesModel); // here will be shown started games to connect to them
-        games.setVisible(true);
-        games.setBounds(10, 10, 200, 300);
-        connect_to_a_gameFrame.add(games);
+        JList gamesList = new JList(gamesModel); // here will be shown started games to connect to them
+        gamesList.setVisible(true);
+        gamesList.setBounds(10, 10, 200, 300);
+        connect_to_a_gameFrame.add(gamesList);
 
         JButton goBack2 = new JButton("Go Back");
         goBack2.setBounds(250, 150, 100, 30);
@@ -123,7 +116,7 @@ public class Menus
 
         createButton.addActionListener(e -> {
             host_a_gameFrame.setVisible(false);
-            gameController = new GameController(Integer.parseInt(boardWidth.getText()), Integer.parseInt(boardHeight.getText()), netController);
+            gameController = new GameController(Integer.parseInt(boardWidth.getText()), Integer.parseInt(boardHeight.getText()), netController,  SnakeRole.MASTER);
         });
 
         goBack2.addActionListener(e -> {
@@ -131,19 +124,32 @@ public class Menus
             mainMenu.setVisible(true);
         });
 
-        games.addListSelectionListener(e -> {
+        gamesList.addListSelectionListener(e -> {
             if(e.getValueIsAdjusting())
             {
-                int index = games.getSelectedIndex();
+                connect_to_a_gameFrame.setVisible(false);
+                int idx = gamesList.getSelectedIndex();
+                String gameName = gamesModel.get(idx);
+                SnakeGameAnnouncement gameAnnouncement = games.get(gameName);
+                gameController = new GameController(gameAnnouncement.configuration.getFieldWidth(),
+                        gameAnnouncement.configuration.getFieldHeight(),
+                        netController, SnakeRole.NORMAL);
+                netController.joinGame(gameAnnouncement);
             }
         });
     }
 
     private SnakeGameAnnouncement addGameToList(SnakeGameAnnouncement snakeGameAnnouncement)
     {
-        games.put(snakeGameAnnouncement.gameName, snakeGameAnnouncement);
-
-        gamesModel.add(0, snakeGameAnnouncement.gameName);
+        if(!games.containsKey(snakeGameAnnouncement.gameName))
+        {
+            games.put(snakeGameAnnouncement.gameName, snakeGameAnnouncement);
+            gamesModel.add(0, snakeGameAnnouncement.gameName);
+        }
+        else
+        {
+            games.replace(snakeGameAnnouncement.gameName, snakeGameAnnouncement);
+        }
 
         return snakeGameAnnouncement;
     }

@@ -14,7 +14,7 @@ public class GamingField extends JPanel
     private final int width;
     private final int height;
     private final int dim = 20;
-    private GameState gameState;
+    private HashMap<Integer, Snake> snakes;
     private ArrayList<Point> food;
 
     public GamingField(int width, int height)
@@ -31,7 +31,6 @@ public class GamingField extends JPanel
     {
         super.paint(g);
 
-        HashMap<Integer, Snake> snakes = gameState.getSnakes();
         g.setColor(Color.BLUE);
 
         for(Snake s : snakes.values())
@@ -50,9 +49,9 @@ public class GamingField extends JPanel
         }
     }
 
-    public void updateField(GameState state, ArrayList<Point> foods)
+    public void updateField(HashMap<Integer, Snake> snakes, ArrayList<Point> foods)
     {
-        this.gameState = state;
+        this.snakes = snakes;
         this.food = foods;
         repaint();
     }

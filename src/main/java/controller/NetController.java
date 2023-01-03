@@ -151,7 +151,8 @@ public class NetController
         }
     }
 
-    public void sendDiscoverMessage() {
+    public void sendDiscoverMessage()
+    {
         // Create proto message
         byte[] message = Converter.createDiscoverMessage(ms_seq++);
 
@@ -166,7 +167,8 @@ public class NetController
         }
     }
 
-    public void sendGameState(SnakePlayer peer, SnakeGameState gameState, HashMap<Integer, SnakePlayer> peers) {
+    public void sendGameState(SnakePlayer peer, SnakeGameState gameState, HashMap<Integer, SnakePlayer> peers)
+    {
         // Create proto message
         byte[] message = Converter.createStateMessage(ms_seq++, gameState, peers);
 

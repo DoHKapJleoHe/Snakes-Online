@@ -1,7 +1,6 @@
 package netUtils;
 
 import model.GameConfiguration;
-import utils.Snake;
 
 import java.net.InetAddress;
 import java.util.HashMap;

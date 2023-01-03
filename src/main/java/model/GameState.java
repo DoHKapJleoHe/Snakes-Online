@@ -32,6 +32,18 @@ public class GameState
         return snakes;
     }
 
+    public ArrayList<Point> getFoods() {
+        return foods;
+    }
+
+    public void setSnakes(HashMap<Integer, Snake> snakes) {
+        this.snakes = snakes;
+    }
+
+    public void setFoods(ArrayList<Point> foods) {
+        this.foods = foods;
+    }
+
     public void addSnake(Snake newSnake)
     {
         this.snakes.put(newSnake.getPlayer_id(), newSnake);
@@ -133,12 +145,17 @@ public class GameState
         return new Point(x, y);
     }
 
+    public void updateGameStateAsGuest()
+    {
+        gameFrame.updateGamingField(snakes, foods);
+    }
+
     public void updateState()
     {
         state_order++;
         checkDeath();
         moveSnakes();
-        gameFrame.updateGamingField(this, foods);
+        gameFrame.updateGamingField(snakes, foods);
     }
 
     public void updateSnakeDirection(int snake_id, String newDir)

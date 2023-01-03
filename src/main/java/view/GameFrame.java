@@ -8,6 +8,7 @@ import utils.Snake;
 import javax.swing.*;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GameFrame extends JFrame
 {
@@ -37,9 +38,9 @@ public class GameFrame extends JFrame
         this.add(gamingField);
     }
 
-    public void updateGamingField(GameState state, ArrayList<Point> foods)
+    public void updateGamingField(HashMap<Integer, Snake> snakes, ArrayList<Point> foods)
     {
-        gamingField.updateField(state, foods);
+        gamingField.updateField(snakes, foods);
     }
 
     public void onArrowPress(KeyListener keyListener)
