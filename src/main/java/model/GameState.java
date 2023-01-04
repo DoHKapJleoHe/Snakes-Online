@@ -18,6 +18,7 @@ public class GameState
     private HashMap<Integer ,Snake> snakes = new HashMap<>();
     private ArrayList<Point> foods = new ArrayList<>();
     private int player_num;
+    private int foodCount = 1;
 
     //TODO: find a free place for food spawning
 
@@ -127,8 +128,15 @@ public class GameState
         int p_x = temp.getX();
         int p_y = temp.getY();
 
+        for(Point p : foods)
+        {
+            if(p_x == p.getX() && p_y == p.getY())
+                return true;
+        }
+
+        return false;
         // case for one food
-        return p_x == foods.get(0).getX() && p_y == foods.get(0).getY();
+        //return p_x == foods.get(0).getX() && p_y == foods.get(0).getY();
     }
 
     // mb rename to "getPoint" ?
@@ -185,13 +193,16 @@ public class GameState
 
     private void spawnFood()
     {
-        Random r = new Random();
-        int x = r.nextInt(config.getFieldWidth());
-        int y = r.nextInt(config.getFieldHeight());
+        if(foodCount == 1)
+        {
+            Random r = new Random();
+            int x = r.nextInt(config.getFieldWidth());
+            int y = r.nextInt(config.getFieldHeight());
 
-        Point food = new Point(x, y);
+            Point food = new Point(x, y);
 
-        foods.add(food);
+            foods.add(food);
+        }
     }
 
     private void checkDeath()
@@ -241,6 +252,7 @@ public class GameState
             if(1 == new Random().nextInt(2))
             {
                 foods.add(p);
+                foodCount++;
             }
         }
     }

@@ -195,8 +195,6 @@ public class GameController
         }
     }
 
-
-
     private SnakeSteer steerSnake(SnakeSteer steer)
     {
         int id = -1;
