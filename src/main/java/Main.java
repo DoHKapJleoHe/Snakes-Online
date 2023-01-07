@@ -1,5 +1,3 @@
-import view.ConnectToGameFrame;
-import view.CreateGameFrame;
 import view.Menus;
 
 import java.io.IOException;
