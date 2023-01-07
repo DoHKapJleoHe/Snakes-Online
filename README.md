@@ -2,4 +2,4 @@
 
 An online version of a legendry game - Snake.
 
-Still in development :)
+Need some bug fixes :)
